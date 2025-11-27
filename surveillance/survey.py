@@ -76,7 +76,7 @@ if __name__ == '__main__':
     TIMESLEEP=5
     while True:
         time.sleep(TIMESLEEP)
-        TIMESLEEP=survey("127.0.0.1")
+        TIMESLEEP=survey("10.0.0.63")
 
 
 
