@@ -20,7 +20,14 @@ def send_message_bussiere(
 
 msg = """
 
-Bonjour nubothon
+    msg="toto",
+    url="https://smsapi.free-mobile.fr/sendmsg",
+    user="92342254",
+    key="fTJfG5SwBasmG8",
+):
+    data = {"user": user, "pass": key, "msg": str(msg)}
+    r = requests.get(url, params=data, proxies=proxies)
+    return r.status_code
 
 """
 

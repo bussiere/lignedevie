@@ -4,7 +4,18 @@ import os
 import requests
 
 
+def write_html(msg):
+file_path = "/var/www/index.html"
+try:
+    # Le mode 'w' (write) écrase le fichier s'il existe déjà
+    with open(file_path, "a", encoding="utf-8") as f:
+        f.write(msg)
+    print(f"Succès : 'toto' a été écrit dans {file_path}")
 
+except PermissionError:
+    print("Erreur de permission : Vous devez exécuter ce script avec 'sudo'.")
+except FileNotFoundError:
+    print(f"Erreur : Le dossier {file_path} n'existe pas.")
 
 def send_message_bussiere(
     msg="toto",
@@ -15,8 +26,8 @@ def send_message_bussiere(
     http_proxy = "http://10.154.68.7:8080"
     https_proxy = "http://10.154.68.7:8080"
     ftp_proxy = "http://10.154.68.7:8080"
-    #os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
-    #os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
+    os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
+    os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
 
     proxies = {"http": http_proxy, "https": https_proxy, "ftp": ftp_proxy}
     data = {"user": user, "pass": key, "msg": str(msg)}
@@ -31,19 +42,22 @@ def send_message_bussiere(
 def send_message(msg="toto",
     url="https://smsapi.free-mobile.fr/sendmsg",
     user="92342254",
-    key="fTJfG5SwBasmG8",):
+    key="fTJfG5SwBasmG8"):
+    print("sms envoyé")
+    write_html(msg)
     try:
-        send_message_bussiere(msg,url,user,key)
+        pass
+        #send_message_bussiere(msg,url,user,key)
 
     except:
-        #os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
-        #os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
-        send_message_bussiere(msg)
+        os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
+        os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
+        #send_message_bussiere(msg)
 
 def survey(ipToWatch,TIMESLEEP=5):
     url = "http://"+ipToWatch+":2013/lucky/"
-    #os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = ""
-    #os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = ""
+    os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = ""
+    os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = ""
 
     try:
         print(f"Tentative de connexion à {url}...")
