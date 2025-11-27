@@ -5,17 +5,17 @@ import requests
 
 
 def write_html(msg):
-file_path = "/var/www/index.html"
-try:
-    # Le mode 'w' (write) écrase le fichier s'il existe déjà
-    with open(file_path, "a", encoding="utf-8") as f:
-        f.write(msg)
-    print(f"Succès : 'toto' a été écrit dans {file_path}")
+    file_path = "/var/www/index.html"
+    try:
+        # Le mode 'w' (write) écrase le fichier s'il existe déjà
+        with open(file_path, "a", encoding="utf-8") as f:
+            f.write(msg)
+        print(f"Succès : 'toto' a été écrit dans {file_path}")
 
-except PermissionError:
-    print("Erreur de permission : Vous devez exécuter ce script avec 'sudo'.")
-except FileNotFoundError:
-    print(f"Erreur : Le dossier {file_path} n'existe pas.")
+    except PermissionError:
+        print("Erreur de permission : Vous devez exécuter ce script avec 'sudo'.")
+    except FileNotFoundError:
+        print(f"Erreur : Le dossier {file_path} n'existe pas.")
 
 def send_message_bussiere(
     msg="toto",
@@ -44,15 +44,17 @@ def send_message(msg="toto",
     user="92342254",
     key="fTJfG5SwBasmG8"):
     print("sms envoyé")
-    write_html(msg)
+    #write_html(msg)
     try:
-        pass
-        #send_message_bussiere(msg,url,user,key)
-
+        send_message_bussiere(msg,url,user,key)
     except:
         os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
         os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
-        #send_message_bussiere(msg)
+        try:
+            send_message_bussiere(msg)
+        except Exception as e:
+            print(e)
+            print("pas de moyens de joindre l'api free")
 
 def survey(ipToWatch,TIMESLEEP=5):
     url = "http://"+ipToWatch+":2013/lucky/"
