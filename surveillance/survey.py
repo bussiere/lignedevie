@@ -12,9 +12,9 @@ def send_message_bussiere(
     user="92342254",
     key="fTJfG5SwBasmG8",
 ):
-    http_proxy = "http://10.154.61.6:3128"
-    https_proxy = "http://10.154.61.6:3128"
-    ftp_proxy = "http://10.154.61.6:3128"
+    http_proxy = "http://10.154.68.7:8080"
+    https_proxy = "http://10.154.68.7:8080"
+    ftp_proxy = "http://10.154.68.7:8080"
 
     proxies = {"http": http_proxy, "https": https_proxy, "ftp": ftp_proxy}
     data = {"user": user, "pass": key, "msg": str(msg)}
@@ -31,8 +31,8 @@ def send_message(msg="toto",
     try:
         send_message_bussiere(msg,url,user,key)
     except:
-        os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "proxy.infra.dgfip:3128"
-        os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "proxy.infra.dgfip:3128"
+        os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
+        os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
         send_message_bussiere(msg)
 
 def survey(ipToWatch,TIMESLEEP=5):
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     TIMESLEEP=5
     while True:
         time.sleep(TIMESLEEP)
-        TIMESLEEP=survey("10.0.0.63")
+        TIMESLEEP=survey("10.0.1.210")
 
 
 
