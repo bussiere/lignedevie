@@ -15,8 +15,8 @@ def send_message_bussiere(
     http_proxy = "http://10.154.68.7:8080"
     https_proxy = "http://10.154.68.7:8080"
     ftp_proxy = "http://10.154.68.7:8080"
-    os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
-    os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
+    #os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
+    #os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
 
     proxies = {"http": http_proxy, "https": https_proxy, "ftp": ftp_proxy}
     data = {"user": user, "pass": key, "msg": str(msg)}
@@ -36,20 +36,23 @@ def send_message(msg="toto",
         send_message_bussiere(msg,url,user,key)
 
     except:
-        os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
-        os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
+        #os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
+        #os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
         send_message_bussiere(msg)
 
 def survey(ipToWatch,TIMESLEEP=5):
     url = "http://"+ipToWatch+":2013/lucky/"
-    os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = ""
-    os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = ""
+    #os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = ""
+    #os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = ""
 
     try:
         print(f"Tentative de connexion à {url}...")
-        
+        http_proxy = ""
+        https_proxy = ""
+        ftp_proxy = ""
+        proxies = {"http": http_proxy, "https": https_proxy, "ftp": ftp_proxy}
         # Envoi de la requête GET
-        response = requests.get(url)
+        response = requests.get(url,proxies=proxies)
         
         # Vérifie si la requête a réussi (code 200) sinon lève une erreur
         response.raise_for_status()
