@@ -30,6 +30,7 @@ def send_message(msg="toto",
     key="fTJfG5SwBasmG8",):
     try:
         #send_message_bussiere(msg,url,user,key)
+        pass
     except:
         os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "http://10.154.68.7:8080"
         os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "http://10.154.68.7:8080"
