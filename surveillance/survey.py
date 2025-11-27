@@ -33,12 +33,12 @@ def send_message(msg="toto",
     user="92342254",
     key="fTJfG5SwBasmG8",):
     try:
-        #send_message_bussiere(msg,url,user,key)
-        pass
+        send_message_bussiere(msg,url,user,key)
+
     except:
         os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "10.154.68.7:8080"
         os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "10.154.68.7:8080"
-        #send_message_bussiere(msg)
+        send_message_bussiere(msg)
 
 def survey(ipToWatch,TIMESLEEP=5):
     url = "http://"+ipToWatch+":2013/lucky/"
