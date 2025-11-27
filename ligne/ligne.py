@@ -29,6 +29,6 @@ if __name__ == '__main__':
     IP_COMPUTER=obtenir_ip_locale()
     # Lancement du serveur sur le port 2013
     print("Démarrage du serveur sur le port 2013...")
-    app.run(port=2013)
+    app.run(host="0.0.0.0",port=2013)
 
 
