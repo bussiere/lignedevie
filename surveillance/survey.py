@@ -1,4 +1,8 @@
 import requests 
+import time
+import os
+import requests
+
 
 
 
@@ -8,14 +12,31 @@ def send_message_bussiere(
     user="92342254",
     key="fTJfG5SwBasmG8",
 ):
+    http_proxy = "http://10.154.61.6:3128"
+    https_proxy = "http://10.154.61.6:3128"
+    ftp_proxy = "http://10.154.61.6:3128"
+
+    proxies = {"http": http_proxy, "https": https_proxy, "ftp": ftp_proxy}
     data = {"user": user, "pass": key, "msg": str(msg)}
-    r = requests.get(url, params=data, proxies=proxies)
+    try:
+        r = requests.get(url, params=data, proxies=proxies)
+    except:
+         r = requests.get(url, params=data)
     return r.status_code
 
+def send_message(msg="toto",
+    url="https://smsapi.free-mobile.fr/sendmsg",
+    user="92342254",
+    key="fTJfG5SwBasmG8",):
+    try:
+        send_message_bussiere(msg,url,user,key)
+    except:
+        os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "proxy.infra.dgfip:3128"
+        os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "proxy.infra.dgfip:3128"
+        send_message_bussiere(msg)
 
-
-def survey(ipToWatch):
-        url = "http://"+ipToWatch+":2013/lucky/"
+def survey(ipToWatch,TIMESLEEP=5):
+    url = "http://"+ipToWatch+":2013/lucky/"
 
     try:
         print(f"Tentative de connexion à {url}...")
@@ -29,36 +50,33 @@ def survey(ipToWatch):
         # Si tout va bien, on affiche le JSON
         print("Succès ! Réponse reçue :")
         print(response.json())
+        TIMESLEEP=5
 
     except requests.exceptions.ConnectionError:
         print("Erreur critique : Impossible de se connecter au serveur.")
         print("Vérifiez que 'api.py' est bien lancé sur le port 2013.")
-        msg = "Serveur "+ipToWatch+" Down"
-
-
-        try:
-            send_message_bussiere(msg)
-        except:
-            import os
-            import requests
-
-            os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = "proxy.infra.dgfip:3128"
-            os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = "proxy.infra.dgfip:3128"
-            send_message_bussiere(msg)
+        msg = "Serveur "+ipToWatch+" Down "
+        send_message(msg)
+        TIMESLEEP=TIMESLEEP*2
 
 
     except requests.exceptions.HTTPError as err:
-        print(f"Erreur HTTP reçue : {err}")
+        msg = "Erreur HTTP reçue : " + str(err)
+        print(msg)
+        send_message(msg)
+        TIMESLEEP=TIMESLEEP*2
 
     except Exception as e:
         print(f"Une erreur inattendue est survenue : {e}")
+    return TIMESLEEP
 
 
 
 if __name__ == '__main__':
+    TIMESLEEP=5
     while True:
-        time.sleep(5)
-        survey("192.168.0.254")
+        time.sleep(TIMESLEEP)
+        TIMESLEEP=survey("127.0.0.1")
 
 
 
